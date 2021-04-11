@@ -1,13 +1,31 @@
 import React from "react";
-import {TaskType} from "./App";
+import {FilterValuesType, TaskType} from "./App";
 
 type  ToDoListProprsType = {
-    title : string
+    title: string
     tasks: Array<TaskType>
+    removeTask: (taskID : number) => void
+    changeTodoListFilter: (newFilterValue: FilterValuesType) => void
 }
 
-function ToDoList(props : ToDoListProprsType) {
-    return(
+function ToDoList(props: ToDoListProprsType) {
+
+    const tasks = props.tasks.map(t => {
+        const removeTask = ()=> props.removeTask(t.id)
+        return (
+            <li key={t.id}>
+                <input type="checkbox" checked={t.isDone}/>
+                <span>{t.title}</span>
+                <button onClick={removeTask}>X</button>
+            </li>
+        )
+    })
+
+    const setAllFilterValue = () => props.changeTodoListFilter("all");
+    const setActibeFilterValue = () => props.changeTodoListFilter("active");
+    const setCompletedFilterValue = () => props.changeTodoListFilter("completed");
+
+    return (
         <div>
             <h3>{props.title}</h3>
             <div>
@@ -15,17 +33,21 @@ function ToDoList(props : ToDoListProprsType) {
                 <button>+</button>
             </div>
             <ul>
-                <li><input type="checkbox" checked={props.tasks[0].isDone}/> <span>{props.tasks[0].title}</span></li>
-                <li><input type="checkbox" checked={props.tasks[1].isDone}/> <span>{props.tasks[1].title}</span></li>
-                <li><input type="checkbox" checked={props.tasks[2].isDone}/> <span>{props.tasks[2].title}</span></li>
+                {tasks}
             </ul>
             <div>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
+                <button onClick={setAllFilterValue}>
+                    All
+                </button>
+                <button onClick={setActibeFilterValue}>
+                    Active
+                </button>
+                <button onClick={setCompletedFilterValue}>
+                    Completed
+                </button>
             </div>
         </div>
     )
 }
 
-export  default ToDoList;
+export default ToDoList;
