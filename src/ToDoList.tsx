@@ -1,17 +1,20 @@
-import React from "react";
+import React, {useState, KeyboardEvent, ChangeEvent} from "react";
 import {FilterValuesType, TaskType} from "./App";
 
 type  ToDoListProprsType = {
     title: string
     tasks: Array<TaskType>
-    removeTask: (taskID : number) => void
+    addTask: (title: string) => void
+    removeTask: (taskID: string) => void
     changeTodoListFilter: (newFilterValue: FilterValuesType) => void
 }
 
 function ToDoList(props: ToDoListProprsType) {
 
+    const [title, setTitle] = useState('');
+
     const tasks = props.tasks.map(t => {
-        const removeTask = ()=> props.removeTask(t.id)
+        const removeTask = () => props.removeTask(t.id)
         return (
             <li key={t.id}>
                 <input type="checkbox" checked={t.isDone}/>
@@ -25,12 +28,29 @@ function ToDoList(props: ToDoListProprsType) {
     const setActibeFilterValue = () => props.changeTodoListFilter("active");
     const setCompletedFilterValue = () => props.changeTodoListFilter("completed");
 
+    const onClickAddTask = () => {
+        props.addTask(title)
+        setTitle("")
+    }
+
+    const onKeyPressAddTask = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            onClickAddTask()
+        }
+    }
+
+    const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
+
     return (
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input/>
-                <button>+</button>
+                <input
+                    value={title}
+                    onChange={onChangeTitle}
+                    onKeyPress={onKeyPressAddTask}
+                />
+                <button onClick={onClickAddTask}>+</button>
             </div>
             <ul>
                 {tasks}
