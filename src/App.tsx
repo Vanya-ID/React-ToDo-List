@@ -3,7 +3,7 @@ import './App.css';
 import ToDoList from "./ToDoList";
 import {v1} from 'uuid';
 
-export  type  TaskType = {
+export type TaskType = {
     id: string
     title: string
     isDone: boolean
@@ -32,6 +32,12 @@ function App() {
         setTasks([newTask, ...tasks])
     }
 
+    function changeTasksStatus(taskID: string, newIsDoneValue: boolean) {
+        console.log(newIsDoneValue);
+
+        setTasks(tasks.map(t => t.id === taskID ? {...t, isDone: newIsDoneValue} : t))
+    }
+
     const [todoListFilter, setTodoListFilter] = useState<FilterValuesType>("all");
 
     function changeTodoListFilter(newFilterValue: FilterValuesType) {
@@ -54,9 +60,11 @@ function App() {
             <ToDoList
                 title={'First one'}
                 tasks={getTasksForTodoList()}
+                filter={todoListFilter}
                 addTask={addTask}
                 removeTask={removeTask}
                 changeTodoListFilter={changeTodoListFilter}
+                changeTasksStatus={changeTasksStatus}
             />
         </div>
     );
