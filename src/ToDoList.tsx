@@ -8,6 +8,7 @@ type  ToDoListProprsType = {
     filter: FilterValuesType
     addTask: (title: string, todoListID: string) => void
     removeTask: (taskID: string, todoListID: string) => void
+    deleteToDoList:(todoListID: string)=>void
     changeTodoListFilter: (newFilterValue: FilterValuesType, todoListID: string) => void
     changeTasksStatus: (taskID: string, newIsDoneValue: boolean, todoListID: string) => void
 }
@@ -63,11 +64,18 @@ function ToDoList(props: ToDoListProprsType) {
         setError(false)
     }
 
+    const deleteToDoListonClick =()=>{
+        props.deleteToDoList(props.todoListID);
+    }
+
     const errorMessage = error ? "title is required!" : null
 
     return (
         <div>
-            <h3>{props.title}</h3>
+            <h3>
+                {props.title}
+                <button onClick={deleteToDoListonClick}>X</button>
+            </h3>
             <div>
                 <input
                     className={error ? 'error' : ' '}

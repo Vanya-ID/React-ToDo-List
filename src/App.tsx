@@ -71,6 +71,11 @@ function App() {
         setToDoLists(toDoLists.map(tl => tl.id === todoListID ? {...tl, filter: newFilterValue} : tl))
     }
 
+    function deleteToDoList (todoListID: string){
+        setToDoLists(toDoLists.filter(tl=> tl.id!== todoListID))
+        delete tasks[todoListID]
+    }
+
     function getTasksForTodoList(toDoList:ToDoListType) {
         switch (toDoList.filter) {
             case "active":
@@ -94,6 +99,7 @@ function App() {
                 removeTask={removeTask}
                 changeTodoListFilter={changeTodoListFilter}
                 changeTasksStatus={changeTasksStatus}
+                deleteToDoList={deleteToDoList}
             />
         )
     })
