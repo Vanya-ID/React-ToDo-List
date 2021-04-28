@@ -40,7 +40,7 @@ function ToDoList(props: ToDoListProprsType) {
     })
 
     const setAllFilterValue = () => props.changeTodoListFilter("all", props.todoListID);
-    const setActibeFilterValue = () => props.changeTodoListFilter("active", props.todoListID);
+    const setActiveFilterValue = () => props.changeTodoListFilter("active", props.todoListID);
     const setCompletedFilterValue = () => props.changeTodoListFilter("completed", props.todoListID);
 
     const onClickAddTask = () => {
@@ -93,7 +93,7 @@ function ToDoList(props: ToDoListProprsType) {
                 <button className={filter === "all" ? "activeFilter" : ''} onClick={setAllFilterValue}>
                     All
                 </button>
-                <button className={filter === "active" ? "activeFilter" : ''} onClick={setActibeFilterValue}>
+                <button className={filter === "active" ? "activeFilter" : ''} onClick={setActiveFilterValue}>
                     Active
                 </button>
                 <button className={filter === "completed" ? "activeFilter" : ''} onClick={setCompletedFilterValue}>
