@@ -1,5 +1,6 @@
 import React, {useState, KeyboardEvent, ChangeEvent} from "react";
 import {FilterValuesType, TaskType} from "./App";
+import AddItemForm from "./AddItemForm";
 
 type  ToDoListProprsType = {
     todoListID: string
@@ -17,9 +18,9 @@ function ToDoList(props: ToDoListProprsType) {
     const {filter} = props
 // const filter = props.filter
 
-    const [title, setTitle] = useState<string>('');
+ /*   const [title, setTitle] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
-
+*/
 
     const JSXTasks = props.tasks.map(t => {
 
@@ -43,6 +44,9 @@ function ToDoList(props: ToDoListProprsType) {
     const setActiveFilterValue = () => props.changeTodoListFilter("active", props.todoListID);
     const setCompletedFilterValue = () => props.changeTodoListFilter("completed", props.todoListID);
 
+    const addTask =(title: string) => props.addTask(title, props.todoListID)
+
+/*
     const onClickAddTask = () => {
         const trimmedTitle = title.trim()
         if (trimmedTitle) {
@@ -52,31 +56,35 @@ function ToDoList(props: ToDoListProprsType) {
         }
         setTitle("")
     }
+*/
 
-    const onKeyPressAddTask = (e: KeyboardEvent<HTMLInputElement>) => {
+ /*   const onKeyPressAddTask = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             onClickAddTask()
         }
-    }
+    }*/
 
-    const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-        setError(false)
-    }
+    // const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    //     setTitle(e.currentTarget.value)
+    //     setError(false)
+    // }
 
-    const deleteToDoListonClick =()=>{
+    const deleteToDoListOnClick =()=>{
         props.deleteToDoList(props.todoListID);
     }
+/*
 
     const errorMessage = error ? "title is required!" : null
+*/
 
     return (
         <div>
             <h3>
                 {props.title}
-                <button onClick={deleteToDoListonClick}>X</button>
+                <button onClick={deleteToDoListOnClick}>X</button>
             </h3>
-            <div>
+            <AddItemForm addItem={addTask} />
+          {/*  <div>
                 <input
                     className={error ? 'error' : ' '}
                     value={title}
@@ -85,7 +93,7 @@ function ToDoList(props: ToDoListProprsType) {
                 />
                 <button onClick={onClickAddTask}>+</button>
                 <div className={'errorMessage'}>{errorMessage}</div>
-            </div>
+            </div>*/}
             <ul>
                 {JSXTasks}
             </ul>
