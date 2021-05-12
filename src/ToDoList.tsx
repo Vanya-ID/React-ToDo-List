@@ -2,6 +2,8 @@ import React, {useState, KeyboardEvent, ChangeEvent} from "react";
 import {FilterValuesType, TaskType} from "./App";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
+import {Button, Checkbox, IconButton} from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
 
 type  ToDoListProprsType = {
     todoListID: string
@@ -14,15 +16,13 @@ type  ToDoListProprsType = {
     changeTodoListFilter: (newFilterValue: FilterValuesType, todoListID: string) => void
     changeTasksStatus: (taskID: string, newIsDoneValue: boolean, todoListID: string) => void
     changeTasksTitle: (taskID: string, newTitle: string, todoListID: string) => void
+    changeTodoListTitle: (title: string, todoListID: string) => void
 }
 
 function ToDoList(props: ToDoListProprsType) {
     const {filter} = props
 // const filter = props.filter
 
-    /*   const [title, setTitle] = useState<string>('');
-       const [error, setError] = useState<boolean>(false);
-   */
 
     const JSXTasks = props.tasks.map(t => {
 
@@ -35,14 +35,18 @@ function ToDoList(props: ToDoListProprsType) {
         }
 
         return (
-            <li className={t.isDone ? "isDone" : ""}
+            <li
                 key={t.id}>
-                <input
-                    onChange={changeTaskStatus}
-                    type="checkbox"
-                    checked={t.isDone}/>
-                <EditableSpan title={t.title} changeTitle={changeTaskTitle}/>
-                <button onClick={removeTask}>X</button>
+                <span className={t.isDone ? "isDone" : ""}>
+                    <Checkbox
+                        color={"primary"}
+                        onChange={changeTaskStatus}
+                        checked={t.isDone}/>
+                    <EditableSpan title={t.title} changeTitle={changeTaskTitle}/>
+                </span>
+                <IconButton onClick={removeTask} color={"secondary"}>
+                    <Delete fontSize={"small"}/>
+                </IconButton>
             </li>
         )
     })
@@ -53,67 +57,51 @@ function ToDoList(props: ToDoListProprsType) {
 
     const addTask = (title: string) => props.addTask(title, props.todoListID)
 
-    /*
-        const onClickAddTask = () => {
-            const trimmedTitle = title.trim()
-            if (trimmedTitle) {
-                props.addTask(trimmedTitle, props.todoListID)
-            } else {
-                setError(true)
-            }
-            setTitle("")
-        }
-    */
-
-    /*   const onKeyPressAddTask = (e: KeyboardEvent<HTMLInputElement>) => {
-           if (e.key === 'Enter') {
-               onClickAddTask()
-           }
-       }*/
-
-    // const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    //     setTitle(e.currentTarget.value)
-    //     setError(false)
-    // }
-
     const deleteToDoListOnClick = () => {
         props.deleteToDoList(props.todoListID);
     }
-    /*
 
-        const errorMessage = error ? "title is required!" : null
-    */
+    const changeTodoListTitle = (title: string) => {
+        props.changeTodoListTitle(title, props.todoListID)
+    }
+
 
     return (
         <div>
             <h3>
-                {props.title}
-                <button onClick={deleteToDoListOnClick}>X</button>
+                <EditableSpan title={props.title} changeTitle={changeTodoListTitle}/>
+                <IconButton onClick={deleteToDoListOnClick} color={"secondary"}>
+                    <Delete/>
+                </IconButton>
             </h3>
             <AddItemForm addItem={addTask}/>
-            {/*  <div>
-                <input
-                    className={error ? 'error' : ' '}
-                    value={title}
-                    onChange={onChangeTitle}
-                    onKeyPress={onKeyPressAddTask}
-                />
-                <button onClick={onClickAddTask}>+</button>
-                <div className={'errorMessage'}>{errorMessage}</div>
-            </div>*/}
-            <ul>
+            <ul style={{listStyle: "none", paddingLeft: '0'}}>
                 {JSXTasks}
             </ul>
             <div>
-                <button className={filter === "all" ? "activeFilter" : ''} onClick={setAllFilterValue}>
+                <Button
+                    size={"small"}
+                    variant={filter === "all" ? "contained" : 'outlined'}
+                    color={"primary"}
+                    onClick={setAllFilterValue}>
                     All
-                </button>
-                <button className={filter === "active" ? "activeFilter" : ''} onClick={setActiveFilterValue}>
+                </Button>
+                <Button
+                    size={"small"}
+                    variant={filter === "active" ? "contained" : 'outlined'}
+                    color={"primary"}
+                    style={{marginLeft: '5px'}}
+                    onClick={setActiveFilterValue}>
                     Active
-                </button>
-                <button className={filter === "completed" ? "activeFilter" : ''} onClick={setCompletedFilterValue}>
+                </Button>
+                <Button
+                    size={"small"}
+                    variant={filter === "completed" ? "contained" : 'outlined'}
+                    color={"primary"}
+                    style={{marginLeft: '5px'}}
+                    onClick={setCompletedFilterValue}>
                     Completed
-                </button>
+                </Button>
             </div>
         </div>
     )
