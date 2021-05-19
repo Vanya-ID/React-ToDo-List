@@ -15,7 +15,7 @@ export type TaskType = {
 export type FilterValuesType = "all" | "active" | "completed";
 
 
-type ToDoListType = {
+export type ToDoListType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -78,6 +78,7 @@ function App() {
         })
     }
 
+    // toDoLists:
     function changeTodoListFilter(newFilterValue: FilterValuesType, todoListID: string) {
         setToDoLists(toDoLists.map(tl => tl.id === todoListID ? {...tl, filter: newFilterValue} : tl))
     }
@@ -86,7 +87,7 @@ function App() {
         setToDoLists(toDoLists.map(tl => tl.id === todoListID ? {...tl, title: title} : tl))
     }
 
-    function deleteToDoList(todoListID: string) {
+    function removeToDoList(todoListID: string) {
         setToDoLists(toDoLists.filter(tl => tl.id !== todoListID))
         delete tasks[todoListID]
     }
@@ -99,6 +100,8 @@ function App() {
         setTasks({...tasks, [newToDoListID]: []})
     }
 
+
+    // UI:
     function getTasksForTodoList(toDoList: ToDoListType) {
         switch (toDoList.filter) {
             case "active":
@@ -129,7 +132,7 @@ function App() {
                         changeTasksStatus={changeTasksStatus}
                         changeTasksTitle={changeTasksTitle}
                         changeTodoListTitle={changeTodoListTitle}
-                        deleteToDoList={deleteToDoList}
+                        removeToDoList={removeToDoList}
                     />
                 </Paper>
             </Grid>
