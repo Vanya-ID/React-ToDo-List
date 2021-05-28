@@ -5,9 +5,10 @@ type RemoveToDoListAT = {
     type: 'REMOVE-TODOLIST'
     todoListID: string
 }
-type AddToDoListAT = {
+export  type AddToDoListAT = {
     type: 'ADD-TODOLIST'
     title: string
+    todolistID: string
 }
 type ChangeTodoListTitleAT = {
     type: 'CHANGE-TODOLIST-TITLE'
@@ -50,7 +51,8 @@ export const RemoveTodoListAC = (todoListID: string): RemoveToDoListAT => ({
 })
 export const AddTodoListAC = (title: string): AddToDoListAT => ({
     type: "ADD-TODOLIST",
-    title: title
+    title: title,
+    todolistID: v1()
 })
 export const ChangeTodoListTitleAC = (todoListID: string, title: string): ChangeTodoListTitleAT => ({
     type: "CHANGE-TODOLIST-TITLE",

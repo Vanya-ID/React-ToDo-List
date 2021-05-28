@@ -11,9 +11,6 @@ const AddItemForm = (props: AddItemFormPropsType) => {
     const [title, setTitle] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
 
-    const errorMessage = error ? "title is required!" : null
-
-
     const onClickAddItem = () => {
         const trimmedTitle = title.trim()
         if (trimmedTitle) {
@@ -45,10 +42,10 @@ const AddItemForm = (props: AddItemFormPropsType) => {
                 onKeyPress={onKeyPressAddItem}
                 helperText={error && 'Ошибочка вышла дружок'}
             />
-            <IconButton onClick={onClickAddItem} style={{paddingLeft:'0'}} color={"primary"}>
+            <IconButton onClick={onClickAddItem} style={{paddingLeft: '0'}} color={"primary"}>
                 <AddBox/>
             </IconButton>
-{/*
+            {/*
             <div className={'errorMessage'}>{errorMessage}</div>
 */}
         </div>
