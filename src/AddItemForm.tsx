@@ -6,8 +6,7 @@ type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-const AddItemForm = (props: AddItemFormPropsType) => {
-
+const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     const [title, setTitle] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
 
@@ -28,8 +27,8 @@ const AddItemForm = (props: AddItemFormPropsType) => {
     }
 
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
         setError(false)
+        setTitle(e.currentTarget.value)
     }
 
 
@@ -50,6 +49,6 @@ const AddItemForm = (props: AddItemFormPropsType) => {
 */}
         </div>
     )
-}
+})
 
 export default AddItemForm
