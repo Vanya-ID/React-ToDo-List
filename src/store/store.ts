@@ -6,7 +6,7 @@ import {combineReducers, createStore} from 'redux';
 // мы задаём структуру нашего единственного объекта-состояния
 const rootReducer = combineReducers({
     tasks: tasksReducer,
-    todolists: toDoListsReducer
+    toDoLists: toDoListsReducer
 })
 // непосредственно создаём store
 export const store = createStore(rootReducer);
