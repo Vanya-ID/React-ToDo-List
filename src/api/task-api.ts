@@ -8,17 +8,52 @@ const instance = axios.create({
     }
 })
 
+type CommonType<T= {}> = {
+    resultCode: number
+    messages: string[]
+    fieldsErrors: string[]
+    data: T
+}
+
+type TaskType = {
+    description: string
+    title: string
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
+    id: string
+    todoListId: string
+    order: number
+    addedDate: string
+}
+
+export type UpdateModelTaskType = {
+    description: string
+    title: string
+    status: number
+    startDate: string
+    priority: number
+    deadline: string
+}
+
+type GetTasksRes = {
+    error: string | null
+    totalCount: number
+    items: TaskType[]
+}
+
 export const taskAPI = {
     getTask(toDoID: string) {
-        return instance.get(`/${toDoID}/tasks`)
+        return instance.get<GetTasksRes>(`/${toDoID}/tasks`)
     },
     createTasks(toDoID: string, title: string) {
-        return instance.post(`/${toDoID}/tasks`, {title: title})
+        return instance.post<CommonType<TaskType>>(`/${toDoID}/tasks`, {title: title})
     },
     deleteTasks(toDoID: string, taskID: string) {
-        return instance.delete(`/${toDoID}/tasks/${taskID}`)
+        return instance.delete<CommonType>(`/${toDoID}/tasks/${taskID}`)
     },
-    updateTasks(toDoID: string, taskID: string, title: string) {
-        return instance.put(`/${toDoID}/tasks/${taskID}`, {title: title})
+    updateTasks(toDoID: string, taskID: string, model: UpdateModelTaskType) {
+        return instance.put<CommonType>(`/${toDoID}/tasks/${taskID}`, model)
     }
 }

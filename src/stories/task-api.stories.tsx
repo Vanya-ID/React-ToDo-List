@@ -53,9 +53,15 @@ export const UpdateTasksTitle = () => {
 
         const todoID = '16585288-15b7-4202-8b24-35975cc4258e'
         const taskID = '1965137d-fb56-409c-b214-53e5fe64a4ac'
-        const title = 'Изменено'
 
-        taskAPI.updateTasks(todoID, taskID, title)
+        taskAPI.updateTasks(todoID, taskID, {
+            title: 'нОВОЕ ЗНАЧЕНИЕ',
+            deadline:'',
+            priority: 2,
+            status: 1,
+            startDate: '',
+            description: 'New tasks from new method'
+        })
             .then(res => {
                 setState(res.data)
             })
