@@ -1,8 +1,8 @@
 import React, {ChangeEvent, useCallback} from "react";
 import {Checkbox, IconButton} from "@material-ui/core";
-import EditableSpan from "./EditableSpan";
 import {Delete} from "@material-ui/icons";
 import {TaskType} from "./AppWithReducers";
+import {EditableSpan} from "./EditableSpan";
 
 export type TasksPropsType = {
     task: TaskType
@@ -31,7 +31,7 @@ const Tasks = React.memo((props: TasksPropsType) => {
                         color={"primary"}
                         onChange={changeTaskStatus}
                         checked={task.isDone}/>
-                    <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
+                    <EditableSpan value={task.title} onChange={changeTaskTitle}/>
                 </span>
             <IconButton onClick={removeTaskHandler} color={"secondary"}>
                 <Delete fontSize={"small"}/>

@@ -1,8 +1,6 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
-import ToDoList from "./ToDoList";
 import {v1} from 'uuid';
-import AddItemForm from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
@@ -13,6 +11,8 @@ import {
     toDoListsReducer
 } from "./store/todolists-reducer";
 import {AddTaskAC, ChangeTasksStatusAC, ChangeTasksTitleAC, RemoveTaskAC, tasksReducer} from "./store/tasks-reducer";
+import {Todolist} from "./Todolist";
+import {AddItemForm} from "./AddItemForm";
 
 export type TaskType = {
     id: string
@@ -140,19 +140,19 @@ function AppWithReducers() {
                 <Paper elevation={3}
                        style={{padding: '10px'}}
                 >
-                    <ToDoList
+                    <Todolist
                         key={tl.id}
-                        todoListID={tl.id}
+                        id={tl.id}
                         title={tl.title}
                         tasks={getTasksForTodoList(tl)}
                         filter={tl.filter}
                         addTask={addTask}
                         removeTask={removeTask}
-                        changeTodoListFilter={changeTodoListFilter}
-                        changeTasksStatus={changeTasksStatus}
-                        changeTasksTitle={changeTasksTitle}
-                        changeTodoListTitle={changeTodoListTitle}
-                        removeToDoList={removeToDoList}
+                        changeFilter={changeTodoListFilter}
+                        changeTaskStatus={changeTasksStatus}
+                        changeTaskTitle={changeTasksTitle}
+                        changeTodolistTitle={changeTodoListTitle}
+                        removeTodolist={removeToDoList}
                     />
                 </Paper>
             </Grid>
