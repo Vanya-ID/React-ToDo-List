@@ -3,7 +3,7 @@ import axios from 'axios';
 import {toDoListAPI} from "../api/todolist-api";
 
 export default {
-    title: 'API'
+    title: 'API ToDo'
 }
 
 export const GetTodolists = () => {
@@ -16,11 +16,11 @@ export const GetTodolists = () => {
     return <div> {JSON.stringify(state)}</div>
 }
 export const CreateTodolist = () => {
-
     const [state, setState] = useState<any>(null)
-
     useEffect(() => {
+
         const title = 'new Title'
+
         toDoListAPI.createToDo(title)
             .then(res => {
                 setState(res.data)
@@ -43,12 +43,12 @@ export const DeleteTodolist = () => {
     return <div> {JSON.stringify(state)}</div>
 }
 export const UpdateTodolistTitle = () => {
-
     const [state, setState] = useState<any>(null)
-
     useEffect(() => {
+
         const id = "16585288-15b7-4202-8b24-35975cc4258e"
         const title = 'Second One'
+
         toDoListAPI.updateToDo(id, title)
             .then(res => {
                 setState(res.data)
