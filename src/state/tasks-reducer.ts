@@ -68,7 +68,6 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             const copy2 = {...state}
             copy2[action.todolistId] = action.tasks
             return copy2
-
         case 'SET-TODOLISTS':
             const copy = {...state}
             action.todos.forEach((t) => {
@@ -150,4 +149,16 @@ export const fetchTasksTC = (todoID: string) => {
                 dispatch(fetchTaskAC(todoID, res.data.items))
             })
     }
+}
+export const removeTaskTC = (todoID: string, taskID: string) => (dispatch: Dispatch) => {
+    todolistsAPI.deleteTask(todoID, taskID)
+        .then((res) => {
+                dispatch(removeTaskAC(taskID, todoID))
+        })
+}
+export const addTaskTC = (todoID: string, taskTitle: string) => (dispatch: Dispatch) => {
+    todolistsAPI.createTask(todoID, taskTitle)
+        .then((res) => {
+            dispatch(addTaskAC(taskTitle, todoID))
+        })
 }
