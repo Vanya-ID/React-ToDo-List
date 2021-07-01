@@ -1,7 +1,14 @@
 import {TasksStateType} from '../App';
 import {v1} from 'uuid';
-import {AddTodolistActionType, RemoveTodolistActionType, SetTodoListsActionType} from './todolists-reducer';
-import {TaskPriorities, TaskStatuses, TaskType} from '../api/todolists-api'
+import {
+    AddTodolistActionType,
+    RemoveTodolistActionType,
+    setTodoListsAC,
+    SetTodoListsActionType
+} from './todolists-reducer';
+import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI} from '../api/todolists-api'
+import {Dispatch} from "redux";
+import {AppRootStateType} from "./store";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -125,3 +132,12 @@ export const changeTaskTitleAC = (taskId: string, title: string, todolistId: str
     return {type: 'CHANGE-TASK-TITLE', title, todolistId, taskId}
 }
 
+// THUNK
+export const fetchTodoListsThunk = (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    //server request
+    todolistsAPI.getTodolists()
+        .then((res) => {
+            //dispatch action
+            dispatch(setTodoListsAC(res.data))
+        })
+}
