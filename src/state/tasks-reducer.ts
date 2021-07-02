@@ -181,3 +181,6 @@ export const updateTaskStatusTC = (todoID: string, taskID: string, status: TaskS
             })
     }
 }
+export const changeTaskTitleTC = () => () => {
+
+}

@@ -47,8 +47,8 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return state.filter(tl => tl.id !== action.id)
         }
         case 'ADD-TODOLIST': {
-            const newTodo :TodolistDomainType ={...action.todolist, filter:'all'}
-             return [newTodo, ...state]
+            const newTodo: TodolistDomainType = {...action.todolist, filter: 'all'}
+            return [newTodo, ...state]
         }
         case 'CHANGE-TODOLIST-TITLE': {
             const todolist = state.find(tl => tl.id === action.id);
@@ -106,5 +106,11 @@ export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
     todolistsAPI.createTodolist(title)
         .then((res) => {
             if (res.data.resultCode === 0) dispatch(addTodolistAC(res.data.data.item))
+        })
+}
+export const changeTodolistTitleTC = (todoID: string, title: string) => (dispatch: Dispatch) => {
+    todolistsAPI.updateTodolist(todoID, title)
+        .then((res)=>{
+            dispatch(changeTodolistTitleAC(todoID, title))
         })
 }
