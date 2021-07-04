@@ -5,18 +5,17 @@ import {AddItemForm} from './AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
 import {
-    addTodolistAC, addTodolistTC,
+    addTodolistTC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, changeTodolistTitleTC, fetchTodoListsTC,
+    changeTodolistTitleTC, fetchTodoListsTC,
     FilterValuesType,
-    removeTodolistAC, removeTodolistTC,
+    removeTodolistTC,
     TodolistDomainType
 } from './state/todolists-reducer'
 import {
-    addTaskAC, addTaskTC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    removeTaskAC, removeTaskTC, updateTaskStatusTC
+    addTaskTC,
+    changeTaskTitleTC,
+    removeTaskTC, updateTaskStatusTC
 } from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
@@ -51,9 +50,8 @@ function App() {
     }, []);
 
     const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-        const action = changeTaskTitleAC(id, newTitle, todolistId);
-        dispatch(action);
-    }, []);
+        dispatch(changeTaskTitleTC(todolistId, id, newTitle));
+    }, [dispatch]);
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
         const action = changeTodolistFilterAC(todolistId, value);

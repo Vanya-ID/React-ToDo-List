@@ -1,8 +1,6 @@
 import {TasksStateType} from '../App';
 import {
-    addTodolistAC,
     AddTodolistActionType,
-    removeTodolistAC,
     RemoveTodolistActionType,
     SetTodoListsActionType
 } from './todolists-reducer';
@@ -181,6 +179,25 @@ export const updateTaskStatusTC = (todoID: string, taskID: string, status: TaskS
             })
     }
 }
-export const changeTaskTitleTC = () => () => {
-
+export const changeTaskTitleTC = (todoID: string, taskID: string, title: string) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    const state = getState()
+    const allTasks = state.tasks
+    const allTasksForClickedTodo = allTasks[todoID]
+    const clickedTask = allTasksForClickedTodo.find((t) => {
+        return t.id === taskID
+    })
+    if (clickedTask) {
+        const model: UpdateTaskModelType = {
+            title: title,
+            status: clickedTask.status,
+            description: clickedTask.description,
+            priority: clickedTask.priority,
+            deadline: clickedTask.deadline,
+            startDate: clickedTask.startDate,
+        }
+        todolistsAPI.updateTask(todoID, taskID, model)
+            .then((res) => {
+                dispatch(changeTaskTitleAC(taskID, title, todoID))
+            })
+    }
 }
