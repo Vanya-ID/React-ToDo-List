@@ -1,32 +1,18 @@
 import {TasksStateType} from '../App';
-import {AddTodolistActionType, RemoveTodolistActionType, SetTodoListsActionType} from './todolists-reducer';
+import {addTodolistAC, changeTodolistTitleAC, removeTodolistAC, setTodoListsAC,} from './todolists-reducer';
 import {TaskType, todolistsAPI, UpdateTaskModelType} from '../api/todolists-api'
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
 
-export type RemoveTaskActionType = {
-    type: 'REMOVE-TASK',
-    todolistId: string
-    taskId: string
-}
+type ActionsType = ReturnType<typeof removeTaskAC> |
+    ReturnType<typeof addTaskAC> |
+    ReturnType<typeof updateTaskAC> |
+    ReturnType<typeof fetchTaskAC> |
+    ReturnType<typeof setTodoListsAC> |
+    ReturnType<typeof addTodolistAC> |
+    ReturnType<typeof changeTodolistTitleAC> |
+    ReturnType<typeof removeTodolistAC>
 
-export type AddTaskActionType = {
-    type: 'ADD-TASK',
-    task: TaskType
-}
-
-export type UpdateTaskActionType = {
-    type: 'UPDATE-TASK',
-    todolistId: string
-    taskId: string
-    model: UpdateDomainTaskModelType
-}
-type ActionsType = RemoveTaskActionType | AddTaskActionType
-    | UpdateTaskActionType
-    | AddTodolistActionType
-    | RemoveTodolistActionType
-    | SetTodoListsActionType
-    | FetchTaskActionType
 
 const initialState: TasksStateType = {
     /*"todolistId1": [
@@ -95,20 +81,18 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     }
 }
 
-export const removeTaskAC = (taskId: string, todolistId: string): RemoveTaskActionType => {
-    return {type: 'REMOVE-TASK', taskId: taskId, todolistId: todolistId}
+export const removeTaskAC = (taskId: string, todolistId: string) => {
+    return {type: 'REMOVE-TASK', taskId: taskId, todolistId: todolistId} as const
 }
-export const addTaskAC = (task: TaskType): AddTaskActionType => {
-    return {type: 'ADD-TASK', task}
+export const addTaskAC = (task: TaskType) => {
+    return {type: 'ADD-TASK', task} as const
 }
-export const updateTaskAC = (taskId: string, model: UpdateDomainTaskModelType, todolistId: string): UpdateTaskActionType => {
-    return {type: 'UPDATE-TASK', model, todolistId, taskId}
+export const updateTaskAC = (taskId: string, model: UpdateDomainTaskModelType, todolistId: string) => {
+    return {type: 'UPDATE-TASK', model, todolistId, taskId} as const
 }
 export const fetchTaskAC = (todolistId: string, tasks: Array<TaskType>) => {
     return {type: 'SET-TASKS', todolistId, tasks} as const
 }
-
-type FetchTaskActionType = ReturnType<typeof fetchTaskAC>
 
 // THUNK
 export const fetchTasksTC = (todoID: string) => {
@@ -143,8 +127,8 @@ type UpdateDomainTaskModelType = {
 }
 export const updateTaskTC = (todoID: string,
                              taskID: string,
-                             domainModel : UpdateDomainTaskModelType) => (dispatch: Dispatch,
-                                                                          getState: () => AppRootStateType) => {
+                             domainModel: UpdateDomainTaskModelType) => (dispatch: Dispatch,
+                                                                         getState: () => AppRootStateType) => {
     const state = getState()
     const allTasks = state.tasks
     const allTasksForClickedTodo = allTasks[todoID]
