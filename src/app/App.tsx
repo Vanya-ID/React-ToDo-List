@@ -7,6 +7,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {RequestStatusType} from "./app-reducer";
+import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 
 function App() {
 
@@ -29,6 +30,8 @@ function App() {
             <Container fixed>
                 <TodolistsList/>
             </Container>
+
+            <ErrorSnackbar/>
         </div>
     )
 }
