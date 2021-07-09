@@ -44,6 +44,7 @@ export const changeTodolistEntityStatusAC = (id: string, entityStatus: RequestSt
     id,
     entityStatus
 } as const)
+
 // thunks
 export const fetchTodolistsTC = () => {
     return (dispatch: Dispatch<ActionsType>) => {
@@ -52,6 +53,9 @@ export const fetchTodolistsTC = () => {
             .then((res) => {
                 dispatch(setTodolistsAC(res.data))
                 dispatch(setAppStatusAC('succeeded'))
+            })
+            .catch((err: AxiosError)=>{
+                handleServerNetworkError(dispatch, err.message)
             })
     }
 }
@@ -63,6 +67,9 @@ export const removeTodolistTC = (todolistId: string) => {
             .then((res) => {
                 dispatch(removeTodolistAC(todolistId))
                 dispatch(setAppStatusAC('succeeded'))
+            })
+            .catch((err: AxiosError)=>{
+                handleServerNetworkError(dispatch, err.message)
             })
     }
 }
@@ -80,8 +87,6 @@ export const addTodolistTC = (title: string) => {
             })
             .catch((err: AxiosError) => {
                 handleServerNetworkError(dispatch, err.message)
-                // dispatch(setErrorStatusAC(err.message))
-                // dispatch(setAppStatusAC('failed'))
             })
     }
 }
@@ -92,6 +97,9 @@ export const changeTodolistTitleTC = (id: string, title: string) => {
             .then((res) => {
                 dispatch(changeTodolistTitleAC(id, title))
                 dispatch(setAppStatusAC('succeeded'))
+            })
+            .catch((err: AxiosError)=>{
+                handleServerNetworkError(dispatch, err.message)
             })
     }
 }
