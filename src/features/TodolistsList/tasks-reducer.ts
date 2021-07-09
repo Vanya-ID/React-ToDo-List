@@ -2,7 +2,7 @@ import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType}
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolists-api'
 import {Dispatch} from 'redux'
 import {AppRootStateType} from '../../app/store'
-import {setAppStatusAC, setErrorStatusAC} from "../../app/app-reducer";
+import {RequestStatusType, setAppStatusAC, setErrorStatusAC} from "../../app/app-reducer";
 import {AxiosError} from "axios";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
@@ -35,6 +35,12 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         }
         case 'SET-TASKS':
             return {...state, [action.todolistId]: action.tasks}
+        case "CHANGE-TASK-ENTITY-STATUS":
+            return {
+                ...state,
+                [action.todoID]: state[action.todoID]
+                    .map(t => t.id === action.taskID ? {...t, entityStatus: action.entityStatus} : t)
+            }
         default:
             return state
     }
@@ -49,6 +55,12 @@ export const updateTaskAC = (taskId: string, model: UpdateDomainTaskModelType, t
     ({type: 'UPDATE-TASK', model, todolistId, taskId} as const)
 export const setTasksAC = (tasks: Array<TaskType>, todolistId: string) =>
     ({type: 'SET-TASKS', tasks, todolistId} as const)
+export const changeTaskEntityStatusAC = (taskID: string, todoID: string, entityStatus: RequestStatusType) => ({
+    type: 'CHANGE-TASK-ENTITY-STATUS',
+    taskID,
+    todoID,
+    entityStatus
+} as const)
 
 // thunks
 export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
@@ -60,19 +72,20 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsT
             dispatch(action)
             dispatch(setAppStatusAC('succeeded'))
         })
-        .catch((err: AxiosError)=>{
+        .catch((err: AxiosError) => {
             handleServerNetworkError(dispatch, err.message)
         })
 }
 export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'))
+    dispatch(changeTaskEntityStatusAC(taskId, todolistId, 'loading'))
     todolistsAPI.deleteTask(todolistId, taskId)
         .then(res => {
             const action = removeTaskAC(taskId, todolistId)
             dispatch(action)
             dispatch(setAppStatusAC('succeeded'))
         })
-        .catch((err: AxiosError)=>{
+        .catch((err: AxiosError) => {
             handleServerNetworkError(dispatch, err.message)
         })
 }
@@ -124,7 +137,7 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
                     handleServerAppError(res.data, dispatch)
                 }
             })
-            .catch((err: AxiosError)=>{
+            .catch((err: AxiosError) => {
                 handleServerNetworkError(dispatch, err.message)
             })
     }
@@ -151,3 +164,4 @@ type ActionsType =
     | ReturnType<typeof setTasksAC>
     | ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof setErrorStatusAC>
+    | ReturnType<typeof changeTaskEntityStatusAC>

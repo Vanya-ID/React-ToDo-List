@@ -54,7 +54,7 @@ export const fetchTodolistsTC = () => {
                 dispatch(setTodolistsAC(res.data))
                 dispatch(setAppStatusAC('succeeded'))
             })
-            .catch((err: AxiosError)=>{
+            .catch((err: AxiosError) => {
                 handleServerNetworkError(dispatch, err.message)
             })
     }
@@ -68,7 +68,7 @@ export const removeTodolistTC = (todolistId: string) => {
                 dispatch(removeTodolistAC(todolistId))
                 dispatch(setAppStatusAC('succeeded'))
             })
-            .catch((err: AxiosError)=>{
+            .catch((err: AxiosError) => {
                 handleServerNetworkError(dispatch, err.message)
             })
     }
@@ -98,7 +98,7 @@ export const changeTodolistTitleTC = (id: string, title: string) => {
                 dispatch(changeTodolistTitleAC(id, title))
                 dispatch(setAppStatusAC('succeeded'))
             })
-            .catch((err: AxiosError)=>{
+            .catch((err: AxiosError) => {
                 handleServerNetworkError(dispatch, err.message)
             })
     }
