@@ -1,15 +1,11 @@
 import axios from 'axios'
-import {RequestStatusType} from "../app/app-reducer";
 
-const settings = {
-    withCredentials: true,
-    headers: {
-        'API-KEY': '6c29e1e8-fc4e-43a9-8828-21203c5a484c'
-    }
-}
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-    ...settings
+    withCredentials: true,
+    headers: {
+        'API-KEY': '8f2534e2-22a4-4052-894e-a66c04807482'
+    }
 })
 
 // api
@@ -75,7 +71,6 @@ export enum TaskPriorities {
 export type TaskType = {
     description: string
     title: string
-    entityStatus: RequestStatusType
     status: TaskStatuses
     priority: TaskPriorities
     startDate: string
