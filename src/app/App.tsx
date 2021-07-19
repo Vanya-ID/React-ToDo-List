@@ -18,6 +18,7 @@ import {AppRootStateType} from './store'
 import {initializedAppTC, RequestStatusType} from './app-reducer'
 import {Redirect, Route, Switch} from 'react-router-dom'
 import {Login} from "../features/Login/Login";
+import {logoutTC} from "../features/Login/auth-reducer";
 
 type PropsType = {
     demo?: boolean
@@ -26,6 +27,7 @@ type PropsType = {
 function App({demo = false}: PropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
     const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -37,7 +39,10 @@ function App({demo = false}: PropsType) {
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
         </div>
+    }
 
+    const logoutHandler = ()=>{
+        dispatch(logoutTC())
     }
 
     return (
@@ -51,7 +56,10 @@ function App({demo = false}: PropsType) {
                     <Typography variant="h6">
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    {
+                        isLoggedIn &&
+                        (<Button onClick={logoutHandler} color="inherit">Logout</Button>)
+                    }
                 </Toolbar>
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
