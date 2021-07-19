@@ -1,12 +1,12 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './App.css'
 import {AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography} from '@material-ui/core'
 import {Menu} from '@material-ui/icons'
 import {TodolistsList} from '../features/TodolistsList/TodolistsList'
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {AppRootStateType} from './store'
-import {RequestStatusType} from './app-reducer'
+import {initializedAppTC, RequestStatusType} from './app-reducer'
 import {Redirect, Route, Switch} from 'react-router-dom'
 import {Login} from "../features/Login/Login";
 
@@ -16,6 +16,12 @@ type PropsType = {
 
 function App({demo = false}: PropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(initializedAppTC())
+    },[])
+
     return (
         <div className="App">
             <ErrorSnackbar/>
