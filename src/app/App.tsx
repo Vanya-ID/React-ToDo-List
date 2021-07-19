@@ -18,9 +18,9 @@ function App({demo = false}: PropsType) {
     const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
     const dispatch = useDispatch()
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(initializedAppTC())
-    },[])
+    }, [])
 
     return (
         <div className="App">
